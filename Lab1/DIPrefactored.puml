@@ -1,0 +1,46 @@
+@startuml
+
+    
+    interface IDataWriter {
+        + void writeData(String encodedData) throws IOException
+    }
+    
+    interface IDataReader {
+        + String readData() throws IOException
+    }
+
+    class FileDataReader implements IDataReader {
+        + String readData() throws IOException
+    }
+    
+    class FileDataWriter implements IDataWriter {
+        + void writeData(String encodedData) throws IOException
+    }
+
+    class NetworkDataReader implements IDataReader {
+        + String readData() throws IOException
+    }
+
+    class DatabaseDataWriter implements IDataWriter {
+        + void writeData(String encodedData) throws IOException
+    }
+    
+    class EncodingModule {
+        + void encode(IDataReader reader, IDataWriter writer) throws IOException
+    }
+
+    class EncodingModuleClient {
+        + void main(String[] args) throws IOException
+    }
+
+
+
+EncodingModuleClient --> EncodingModule : "use"
+EncodingModule --> IDataReader : "read"
+EncodingModule --> IDataWriter : "write"
+FileDataReader ..|> IDataReader
+FileDataWriter ..|> IDataWriter
+NetworkDataReader ..|> IDataReader
+DatabaseDataWriter ..|> IDataWriter
+
+@enduml
