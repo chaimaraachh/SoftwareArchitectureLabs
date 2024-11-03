@@ -1,0 +1,12 @@
+@startuml
+Customer1 -> Store : register()
+Customer2 -> Store : register()
+
+Store -> Store : isProductAvailable(Product)
+alt if product is available
+    Store -> Customer1 : notify(Product)
+    Store -> Customer2 : notify(Product)
+    Customer1 -> Customer1 : receiveNotification(Product)
+    Customer2 -> Customer2 : receiveNotification(Product)
+end
+@enduml

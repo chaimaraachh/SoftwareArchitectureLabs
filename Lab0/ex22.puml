@@ -1,0 +1,18 @@
+@startuml
+class Product {
+    +name: String
+}
+
+class Customer {
+    +receiveNotification(Product)
+}
+
+class Store {
+    +customers: List<Customer>
+    +notifyAllCustomers(Product)
+    +isProductAvailable(Product): bool
+}
+
+Store --> Customer : notify all
+Store --> Product : has
+@enduml

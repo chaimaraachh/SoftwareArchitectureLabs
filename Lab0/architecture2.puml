@@ -1,0 +1,83 @@
+@startuml architecture_diagram
+
+skinparam componentStyle rectangle
+
+' Couche 4 : Gestion de la sécurité et de l'identité
+package "Couche 4 : Gestion de la sécurité et de l'identité" {
+  component L4_D1 as "Keycloak - Gestion de l'identité"
+  component L4_D2 as "Contrôle d'accès basé sur les rôles - RBAC"
+  component L4_D3 as "Chiffrement et Sécurité"
+  component L4_D4 as "Journalisation d'audit"
+}
+
+' Référence des composants existants sans redéclaration
+L4_D1 --> "Assistant interactif"
+L4_D1 --> "Docker Hub - Dépôt de conteneurs"
+L4_D1 --> "Base de données 1"
+L4_D2 --> "Assistant interactif"
+L4_D2 --> "Docker Hub - Dépôt de conteneurs"
+L4_D2 --> "Base de données 1"
+L4_D3 --> "Docker Hub - Dépôt de conteneurs"
+L4_D3 --> "Base de données 1"
+L4_D4 --> "Docker Hub - Dépôt de conteneurs"
+L4_D4 --> "Base de données 1"
+
+' Couche 1 : Interaction avec l'utilisateur et le développeur
+package "Couche 1 : Interaction avec l'utilisateur et le développeur" {
+  component L1_A1 as "Assistant interactif"
+  component L1_A2 as "Fonctionnalité Drag-and-Drop sans code / avec peu de code"
+  component L1_A3 as "Environnement de développement traditionnel"
+  component L1_A4 as "Modèles préconstruits"
+  component L1_A5 as "Référentiel de composants réutilisables"
+}
+
+' Couche 2 : Orchestration des services et middleware
+package "Couche 2 : Orchestration des services et middleware" {
+  component L2_B1 as "Docker Hub - Dépôt de conteneurs"
+  component L2_B2 as "Cluster Kubernetes"
+  
+  package "Pods du cluster Kubernetes" {
+    component L2_P1 as "Pod de surveillance"
+    component L2_P2 as "Pod frontend"
+    component L2_P3 as "Pod backend"
+  }
+
+  component L2_B6 as "Passerelle API"
+  component L2_B7 as "Messagerie - RabbitMQ"
+  component L2_B8 as "Pipeline CI/CD"
+
+  L2_B1 --> L2_B2
+  L2_B2 --> L2_P1
+  L2_B2 --> L2_P2
+  L2_B2 --> L2_P3
+  L2_P1 --> L2_B6
+  L2_P2 --> L2_B6
+  L2_P3 --> L2_B6
+  L2_B7 --> L2_P2
+  L2_B8 --> L2_B2
+}
+
+' Couche 3 : Solutions de bases de données et de stockage
+package "Couche 3 : Solutions de bases de données et de stockage" {
+  component L3_C1 as "Base de données 1"
+  component L3_C2 as "Base de données 2"
+  component L3_C3 as "Elasticsearch"
+  L3_C1 --> L3_C3
+  L3_C2 --> L3_C3
+}
+
+' Couche d'interopérabilité UXP
+package "Couche d'interopérabilité UXP" {
+  component L_UXP1 as "Bus UXP"
+  component L_UXP2 as "Communication avec le Ministère de l'Intérieur"
+  component L_UXP3 as "Communication avec le Ministère de l'Éducation"
+  component L_UXP4 as "Échange de données entre services"
+}
+
+L2_B6 --> L_UXP1
+L_UXP1 --> L_UXP2
+L_UXP1 --> L_UXP3
+L_UXP1 --> L_UXP4
+L2_B2 --> L3_C3
+
+@enduml

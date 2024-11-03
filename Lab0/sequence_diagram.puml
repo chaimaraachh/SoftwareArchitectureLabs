@@ -1,0 +1,55 @@
+@startuml UXP_Interoperability_Diagram
+actor Utilisateur
+participant Keycloak
+participant "Assistant interactif" as AssistantInteractif
+participant "Modèles préconstruits" as ModelesPreConstruits
+participant "Docker Hub" as DockerHub
+participant "Cluster Kubernetes" as ClusterKubernetes
+participant "Pod de surveillance" as PodSurveillance
+participant "Pod Backend" as PodBackend
+participant "Pod Frontend" as PodFrontend
+participant "Passerelle API" as PasserelleAPI
+participant RabbitMQ
+participant Elasticsearch
+participant BasesDeDonnées
+participant "Bus UXP" as BusUXP
+participant "Ministère des Affaires Intérieures" as AffairesInterieures
+participant "Ministère de l'Éducation" as Education
+participant "Gestion de la sécurité et des identités" as GestionSecuriteIdentites
+
+Utilisateur -> Keycloak: Connexion
+Keycloak -> Utilisateur: Authentification & Autorisation
+Keycloak -> AssistantInteractif: Selon le rôle (Assistant interactif / Glisser-déposer / Dev traditionnel)
+
+Utilisateur -> AssistantInteractif: Sélectionner l'approche de développement
+AssistantInteractif -> ModelesPreConstruits: Choisir parmi les modèles préconstruits / composants
+AssistantInteractif -> DockerHub: Tirer des images Docker
+DockerHub -> ClusterKubernetes: Construire des images dans des pods
+
+ClusterKubernetes -> PodSurveillance: Démarrer Prometheus et Grafana
+ClusterKubernetes -> PodBackend: Démarrer le microservice backend
+ClusterKubernetes -> PodFrontend: Démarrer le microservice frontend
+
+PodBackend -> PasserelleAPI: Communiquer via des appels API
+PodFrontend -> PasserelleAPI: Communiquer via des appels API
+
+PodBackend -> RabbitMQ: Envoyer une requête à Elasticsearch
+RabbitMQ -> Elasticsearch: Rechercher des informations dans les bases de données
+
+Elasticsearch -> BasesDeDonnées: Recherche de données
+BasesDeDonnées -> Elasticsearch: Retourner les données
+Elasticsearch -> RabbitMQ: Envoyer la réponse
+RabbitMQ -> PodBackend: Retourner les données au backend
+
+ClusterKubernetes -> PodSurveillance: Suivre l'état de santé du service
+PodSurveillance -> Grafana: Visualiser les données de surveillance
+
+PasserelleAPI -> BusUXP: Demande d'interopérabilité à UXP
+BusUXP -> AffairesInterieures: Demande de données de naissance
+BusUXP -> Education: Demande de données d'inscription à l'école
+BusUXP -> PodBackend: Retourner les données interopérables
+
+GestionSecuriteIdentites -> Keycloak: Gérer l'authentification / autorisation
+GestionSecuriteIdentites -> Tous: Assurer la communication sécurisée
+
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+interface Component {
+    + execute()
+}
+
+class Leaf {
+    + execute(): void
+    "Do some work."
+}
+
+class Composite {
+    - children: List<Component>
+    + add(Component): void
+    + remove(Component): void
+    + getChildren(): List<Component>
+    + execute(): void
+    "Delegate work to child components."
+}
+
+class Client {
+    + operation(): void
+}
+
+Client --> Component
+Component <|-- Leaf
+Component <|-- Composite
+Composite *-- Component : contains
+@enduml

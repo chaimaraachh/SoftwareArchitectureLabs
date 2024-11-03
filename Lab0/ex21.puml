@@ -1,0 +1,17 @@
+@startuml
+class Product {
+    +name: String
+}
+
+class Customer {
+    +checkProductAvailability(store: Store, product: Product)
+}
+
+class Store {
+    +isProductAvailable(product: Product): bool
+}
+
+Customer --> Store : checks availability of product
+Customer --> Product : interested in
+Store --> Product : has
+@enduml
