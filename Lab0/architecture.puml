@@ -1,0 +1,75 @@
+@startuml architecture_diagram
+
+package "Layer 4: Security and Identity Management" {
+  component D1 as "Keycloak - Identity Management"
+  component D2 as "Role-Based Access Control - RBAC"
+  component D3 as "Encryption and Security"
+  component D4 as "Audit Logging"
+}
+
+D1 --> "Interactive Assistant"
+D1 --> "Docker Hub - Container Repository"
+D1 --> "Database 1"
+D2 --> "Interactive Assistant"
+D2 --> "Docker Hub - Container Repository"
+D2 --> "Database 1"
+D3 --> "Docker Hub - Container Repository"
+D3 --> "Database 1"
+D4 --> "Docker Hub - Container Repository"
+D4 --> "Database 1"
+
+package "Layer 1: User and Developer Interaction" {
+  component A1 as "Interactive Assistant"
+  component A2 as "Low-Code/No-Code Drag-and-Drop Feature"
+  component A3 as "Traditional Development Environment"
+  component A4 as "Pre-built Templates"
+  component A5 as "Repository of Reusable Components"
+}
+
+package "Layer 2: Middleware and Service Orchestration" {
+  component B1 as "Docker Hub - Container Repository"
+  component B2 as "Kubernetes Cluster"
+  
+  package "Kubernetes Cluster" {
+    component P1 as "Monitoring Pod"
+    component P2 as "Frontend Pod"
+    component P3 as "Backend Pod"
+  }
+
+  component B6 as "API Gateway"
+  component B7 as "Message Queuing - RabbitMQ"
+  component B8 as "CI/CD Pipeline"
+
+  B1 --> B2
+  B2 --> P1
+  B2 --> P2
+  B2 --> P3
+  P1 --> B6
+  P2 --> B6
+  P3 --> B6
+  B7 --> P2
+  B8 --> B2
+}
+
+package "Layer 3: Databases and Storage Solutions" {
+  component C1 as "Database 1"
+  component C2 as "Database 2"
+  component C3 as "Elasticsearch"
+  C1 --> C3
+  C2 --> C3
+}
+
+package "UXP Interoperability Layer" {
+  component X1 as "UXP Bus"
+  component X2 as "Communication with Ministry of Home Affairs"
+  component X3 as "Communication with Ministry of Education"
+  component X4 as "Inter-service Data Exchange"
+}
+
+B6 --> X1
+X1 --> X2
+X1 --> X3
+X1 --> X4
+B2 --> C3
+
+@enduml
