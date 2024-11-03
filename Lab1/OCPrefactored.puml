@@ -1,0 +1,35 @@
+@startuml
+
+interface Resource {
+    +int allocate()
+    +void free(int resourceId)
+}
+
+class TimeSlotResource implements Resource {
+    +int allocate()
+    +void free(int resourceId)
+
+}
+
+class SpaceSlotResource implements Resource {
+    +int allocate()
+    +void free(int resourceId)
+
+}
+
+class ResourceAllocator {
+    +int allocate(Resource resource)
+    +void free(Resource resource, int resourceId)
+    +int findFreeSlot()
+
+}
+
+class Client {
+    +void allocateResource(ResourceAllocator allocator, Resource resource)
+}
+
+ResourceAllocator --> Resource
+Client ..> ResourceAllocator: use
+Client ..> Resource: use
+
+@enduml
