@@ -1,0 +1,31 @@
+@startuml
+
+    interface IDuck {
+        +void quack()
+        +void swim()
+    }
+
+    class Duck implements IDuck {
+        +void quack()
+        +void swim()
+    }
+
+    class ElectronicDuck implements IDuck {
+        -boolean _on
+        +void quack()
+        +void swim()
+        +void turnOn()
+        +void turnOff()
+    }
+
+    class Pool {
+        +void run()
+        -void quack(IDuck... ducks)
+        -void swim(IDuck... ducks)
+        +static void main(String[] args)
+    }
+
+    Pool ..> IDuck : uses
+
+@enduml
+
